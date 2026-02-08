@@ -1,5 +1,8 @@
 # Uploading Images in Flask Using Cloudinary
-## Table of Contents
+## About 
+This lesson will integrate the Cloudinary API into a Flask backend to allow for image uploads
+
+## Content
 - [Getting Started with Cloudinary](#getting-started-with-cloudinary)
 - [Setting Up Your Flask Code](#setting-up-your-flask-code)
 - [Updating the flask_hoot Database](#updating-the-flask_hoot-database)
