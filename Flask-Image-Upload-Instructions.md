@@ -30,6 +30,8 @@ API_SECRET=your_api_>secret
 ```
 4. Create a `main.py` file and add the following code:
 ```py
+# main.py
+
 import os
 import cloudinary
 import cloudinary.uploader
@@ -53,12 +55,13 @@ def upload_image(file):
 
 ```py
 # hoots_blueprint.py
+
 from main import upload_image # <-- New line of code to add to the bottom of all other imports
 ```
 
 ## Updating the `flask_hoot` Database
 Next, we need to make sure our hoots table has an `image_url` column.
-1. In the terminal enter your psql shell: `psql`
+1. In the terminal enter the psql shell: `psql`
 2. Then connect to your database: `\c flask_hoot` <- make sure you know your actual database name
 3. Then update the hoots table:
 ```psql
@@ -66,7 +69,10 @@ ALTER TABLE hoots
 ADD COLUMN image_url TEXT DEFAULT NULL;
 ```
 
-**If you're creating a database from scratch, then you might do something like this:**
+**If you're creating a database from scratch, then you might do something like this in your terminal:**
+```sql
+psql
+```
 ```sql
 CREATE DATABASE flask_hoot;
 ```
@@ -244,4 +250,4 @@ def update_hoot(hoot_id):
 - Select `Assets > Media Library > Assets` and you should see your photo
 ![cloudinary assets](./images/cloudinary-assets.png)
 
-**You are now done setting up image uploads for your Flask Backend! 🎉**
+**You are now done setting up image uploads in your Flask Backend! 🎉**
