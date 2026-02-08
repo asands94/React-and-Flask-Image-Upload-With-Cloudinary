@@ -1,4 +1,11 @@
 # Uploading Images in Flask Using Cloudinary
+## Table of Contents
+- [Getting Started with Cloudinary](#getting-started-with-cloudinary)
+- [Setting Up Your Flask Code](#setting-up-your-flask-code)
+- [Updating the flask_hoot Database](#updating-the-flask_hoot-database)
+- [Updating the create_hoot route](#updating-the-create_hoot-route)
+- [Updating the update_hoot route](#updating-the-update_hoot-route)
+- [Testing it out in Postman](#testing-it-out-in-postman)
 
 ## Getting Started with Cloudinary
 
