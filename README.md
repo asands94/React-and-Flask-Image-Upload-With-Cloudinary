@@ -69,7 +69,7 @@ Next we need to make sure our hoots table has an `image_url` column.
 ALTER TABLE hoots
 ADD COLUMN image_url TEXT DEFAULT NULL;
 ```
-Now I need to modify the `create_hoot` function so that it can accept any type of form information (json AND image files)
+Let's modify the `create_hoot` function so that it can accept any type of form information (json AND image files)
 ```py
 @hoots_blueprint.route('/hoots', methods=['POST'])
 @token_required
@@ -79,7 +79,7 @@ def create_hoot():
         # image_url refers to the column name on the hoots table
         # if the user does not upload an image it will default to None
         image_url = None
-        # if the user does upload an image, then we update out image_url field to the uploaded image
+        # if the user does upload an image, then we update our image_url field to the uploaded image
         if image:
             image_url = upload_image(image)
 
@@ -129,6 +129,68 @@ def create_hoot():
         return jsonify({"error": str(error)}), 500
 ```
 
+Finally, let's modify out update_hoot route so we can change the image if we want
+```py
+@hoots_blueprint.route('/hoots/<hoot_id>', methods=['PUT'])
+@token_required
+def update_hoot(hoot_id):
+    try:
+        image = request.files.get("image_url")
+        # image_url refers to the column name on the hoots table
+        # if the user does not upload an image it will default to None
+        image_url = None
+        # if the user does upload an image, then we update our image_url field to the uploaded image
+        if image:
+            image_url = upload_image(image)
+            
+        # specify the rest of the fields in our table and grab that information
+        title = request.form.get("title")
+        text = request.form.get("text")
+        category = request.form.get("category")
+        
+        # connect to the database
+        connection = get_db_connection()
+        cursor = connection.cursor(
+            cursor_factory=psycopg2.extras.RealDictCursor)
+        cursor.execute("SELECT * FROM hoots WHERE hoots.id = %s", (hoot_id,))
+        hoot_to_update = cursor.fetchone()
+        if hoot_to_update is None:
+            return jsonify({"error": "hoot not found"}), 404
+        connection.commit()
+        if hoot_to_update["author"] is not g.user["id"]:
+            return jsonify({"error": "Unauthorized"}), 401
+
+        final_image_url = image_url if image_url else hoot_to_update.get(
+            "image_url")
+
+         # update all the form data in the database
+        cursor.execute("UPDATE hoots SET title = %s, text = %s, category = %s, image_url = %s WHERE hoots.id = %s RETURNING *",
+                       (title, text, category, final_image_url, hoot_id))
+        hoot_id = cursor.fetchone()["id"]
+
+        # Join the user table and the hoots table
+        # Show the newly created information along with the user information
+        cursor.execute("""SELECT h.id, 
+                            h.author AS hoot_author_id, 
+                            h.title, 
+                            h.text, 
+                            h.category, 
+                            h.image_url,
+                            u_hoot.username AS author_username
+                        FROM hoots h
+                        JOIN users u_hoot ON h.author = u_hoot.id
+                        WHERE h.id = %s
+                       """, (hoot_id,))
+        updated_hoot = cursor.fetchone()
+        connection.commit()
+        connection.close()
+        return jsonify(updated_hoot), 200
+    except Exception as error:
+        return jsonify({"error": str(error)}), 500
+
+
+```
+
 You can test this out in postman! If everything has been setup correctly, we should be able to upload an image to our hoots and see the image in our Cloudinary dashboard.
 
 1. Make a collection in Postman for your Hoots, then create an account in your database. You'll want to make sure to use the generated token to authenticate your requests. If you need help with, view the steps in detail [here](./Postman-Help.md)
@@ -155,3 +217,175 @@ You can test this out in postman! If everything has been setup correctly, we sho
 8. Now lets check our Cloudinary dashboard and see if the image is there:
 - Select `Assets > Media Library > Assets` and you should see your photo
 ![cloudinary assets](./images/cloudinary-assets.png)
+
+### How to Setup your React Frontend
+The below code shows what your create Form Component should look like:
+
+```jsx
+// HootForm.jsx
+import { useState, useEffect } from 'react'
+import { useParams } from 'react-router'
+
+import * as hootService from '../../services/hootService'
+
+const HootForm = ({ handleAddHoot, handleUpdateHoot }) => {
+    const { hootId } = useParams()
+    const [formData, setFormData] = useState({
+        title: '',
+        text: '',
+        category: 'News',
+    })
+    // Add in a new useState for your image
+    const [imageFile, setImageFile] = useState(null)
+
+    useEffect(() => {
+        const fetchHoot = async () => {
+            if (!hootId) return
+            const hootData = await hootService.show(hootId)
+            setFormData({
+                title: hootData.title || '',
+                text: hootData.text || '',
+                category: hootData.category || 'News',
+                // add image_url to the formData for update purposes
+                // we want to see if a hoot already has an image
+                image_url: hootData.image_url || '',
+            })
+        }
+        fetchHoot()
+    }, [hootId])
+
+    const handleChange = (evt) => {
+        setFormData({ ...formData, [evt.target.name]: evt.target.value })
+    }
+
+    // update the handleSubmit
+    const handleSubmit = (evt) => {
+        evt.preventDefault()
+
+        // FormData allows us to send text and files to our backend
+        const data = new FormData()
+
+        // append (add) the form values to FormData
+        data.append('title', formData.title)
+        data.append('text', formData.text)
+        data.append('category', formData.category)
+
+        if (imageFile) {
+            data.append('image_url', imageFile)
+        }
+
+        if (hootId) {
+            // send the updated data to the backend
+            handleUpdateHoot(hootId, data)
+        } else {
+            // send the new data to the backend
+            handleAddHoot(data)
+        }
+    }
+
+    return (
+        <main>
+            <h1>{hootId ? 'Edit Hoot' : 'New Hoot'}</h1>
+            <form onSubmit={handleSubmit}>
+                <label htmlFor='title-input'>Title</label>
+                <input
+                    required
+                    type='text'
+                    name='title'
+                    id='title-input'
+                    value={formData.title}
+                    onChange={handleChange}
+                />
+                <label htmlFor='text-input'>Text</label>
+                <textarea
+                    required
+                    type='text'
+                    name='text'
+                    id='text-input'
+                    value={formData.text}
+                    onChange={handleChange}
+                />
+                <label htmlFor='category-input'>Category</label>
+                <select
+                    required
+                    name='category'
+                    id='category-input'
+                    value={formData.category}
+                    onChange={handleChange}
+                >
+                    <option value='News'>News</option>
+                    <option value='Games'>Games</option>
+                    <option value='Music'>Music</option>
+                    <option value='Movies'>Movies</option>
+                    <option value='Sports'>Sports</option>
+                    <option value='Television'>Television</option>
+                </select>
+                {/* add a new label and input for the image */}
+                <label htmlFor='image_url-input'>Image</label>
+                <input
+                    type='file'
+                    name='image_url'
+                    id='image_url-input'
+                    accept='image/*'
+                    onChange={(e) => setImageFile(e.target.files[0])}
+                />
+                {/* if the hoot is being updated, show a preview of the previously uploaded image */}
+                {hootId && formData.image_url && (
+                    <div>
+                        <p>Current image:</p>
+                        <img
+                            src={formData.image_url}
+                            alt='Current hoot'
+                            style={{ maxWidth: '200px' }}
+                        />
+                    </div>
+                )}
+
+                <button type='submit'>SUBMIT</button>
+            </form>
+        </main>
+    )
+}
+
+export default HootForm
+```
+
+We also need to make a small change to our services so that the functions accept form data and not just JSON:
+```js
+// hootService.js
+
+
+const create = async (hootFormData) => {
+    try {
+        const res = await fetch(`${BASE_URL}`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                // we removed 'Content-Type': 'application/json' since we are sending back more than JSON data now 
+            },
+            // we removed JSON.stringify()
+            body: hootFormData,
+        })
+        return res.json()
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+// We'll do the same thing for the update function:
+
+const updateHoot = async (hootId, hootFormData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/${hootId}`, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: hootFormData,
+        })
+        return res.json()
+    } catch (err) {
+        console.log(err)
+    }
+}
+```
