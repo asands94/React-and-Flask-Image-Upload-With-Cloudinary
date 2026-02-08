@@ -1,5 +1,6 @@
 # Setting Up Your React Frontend for Image Uploads
-The below code shows what your create Form Component should look like:
+## About 
+These instructions will show how to modify a React form so it can send uploaded images to a backend
 
 ```jsx
 // HootForm.jsx
