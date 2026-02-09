@@ -2,6 +2,12 @@
 ## About 
 These instructions will show how to modify a React form so it can send uploaded images to a backend
 
+## Content
+- [Modifying the HootForm](#modifying-the-hootform)
+- [Modifying the hootService](#modifying-the-hootservice)
+- [Seeing Your Image in the Browser](#seeing-your-image-in-the-browser)
+
+## Modifying the HootForm
 ```jsx
 // HootForm.jsx
 
@@ -17,7 +23,7 @@ const HootForm = ({ handleAddHoot, handleUpdateHoot }) => {
         text: '',
         category: 'News',
     })
-    // Add in a new useState for your image
+    // Add a new useState for your image
     const [imageFile, setImageFile] = useState(null)
 
     useEffect(() => {
@@ -28,8 +34,8 @@ const HootForm = ({ handleAddHoot, handleUpdateHoot }) => {
                 title: hootData.title || '',
                 text: hootData.text || '',
                 category: hootData.category || 'News',
-                // add image_url to the formData for update purposes
-                // we want to see if a hoot already has an image
+                // add image_url to the formData
+                // we want to see if a hoot already has an image when we go to edit the hoot
                 image_url: hootData.image_url || '',
             })
         }
@@ -131,11 +137,10 @@ const HootForm = ({ handleAddHoot, handleUpdateHoot }) => {
 
 export default HootForm
 ```
-
-We also need to make a small change to our services so that the functions accept form data and not just JSON:
+## Modifying the hootService
+We also need to make a small change to our services so that the create and update functions accept any type of form data and not just JSON.
 ```js
 // hootService.js
-
 
 const create = async (hootFormData) => {
     try {
@@ -143,7 +148,7 @@ const create = async (hootFormData) => {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
-                // we removed 'Content-Type': 'application/json' since we are sending back more than JSON data now 
+                // we removed 'Content-Type': 'application/json' since we are sending back more than JSON data
             },
             // we removed JSON.stringify()
             body: hootFormData,
@@ -172,8 +177,19 @@ const updateHoot = async (hootId, hootFormData) => {
 }
 ```
 
-## AND WE'RE DONE 🎉🎉🎉
-View the entire backend here:
-> The only difference in the full version is that a created_at column has been added to the hoots table
-View the entire frontend here:
-> The only difference in the full version is that the created_at date has been fixed to show the date a hoot was created instead of Invalid Date
+## Seeing Your Image in the Browser
+Let's add the image to the HootDetails component below the h1 tag
+
+```jsx
+// HootDetails.jsx
+
+// You can remove or change the width.
+<img src={hoot.image_url} width={300} alt={hoot.title} />
+```
+
+**AND WE'RE DONE 🎉🎉🎉**
+View the entire backend here: [Flask Hoot](https://github.com/asands94/flask-hoot-back-end)
+> The only difference in the full version is that a created_at column has been added to the hoots table and the comments table
+
+View the entire frontend here: [React Hoot](https://github.com/asands94/react-hoot-with-flask)
+> The only difference in the full version is that the date has been fixed to show the date a hoot and comment were created instead of showing Invalid Date
