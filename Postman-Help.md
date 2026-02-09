@@ -9,10 +9,18 @@ These instructions will show how to setup Postman
 
 ## Create a Collection
 Create a new collection and select blank collection. Name your collection **Hoots Flask Api**.
-<div style="display: flex; overflow-x: scroll; gap: 12px; padding: 8px 0;">
-    <img src="./images/postman-new-collection.png" width="500" />
-    <img src="./images/postman-blank-collection.png" width="500" />
-    <img src="./images/postman-name-collection.png" width="500" />
+<!-- <div align="center">
+    <pre>
+        <img src="./images/postman-new-collection.png" width="500" />
+        <img src="./images/postman-blank-collection.png" width="500" />
+        <img src="./images/postman-name-collection.png" width="500" />
+    </pre>
+</div> -->
+
+<div align="center">
+  <pre>
+   <img src="./images/postman-new-collection.png" width="500" />&nbsp;&nbsp;&nbsp;<img src="./images/postman-blank-collection.png" width="500" />&nbsp;&nbsp;&nbsp;<img src="./images/postman-name-collection.png" width="500" />
+  </pre>
 </div>
 
 ## Sign Up a New User
