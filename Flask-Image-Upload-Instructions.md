@@ -18,8 +18,8 @@ These instructions will show how to integrate the Cloudinary API into a Flask ba
 
 2. Answer a series of questions (they may be different than what is shown below):
 
-<div style="display: flex; overflow-x: auto; gap: 12px; padding: 8px 0;">
-    <img src="./images/cloudinary-signup-question-1.png" width="500" />
+<div style="display: flex; overflow-x: scroll; gap: 12px; padding: 8px 0;">
+    <img src="./images/cloudinary-signup-question-1.png" width="500"/>
     <img src="./images/cloudinary-signup-question-2.png" width="500" />
     <img src="./images/cloudinary-signup-question-3.png" width="500" />
     <img src="./images/cloudinary-signup-question-4.png" width="500" />
