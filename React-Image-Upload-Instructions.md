@@ -195,8 +195,6 @@ Let's add the image to the HootDetails component **below the h1 tag.**
 ```
 
 **AND WE'RE DONE 🎉🎉🎉**
-View the entire backend here: [Flask Hoot](https://github.com/asands94/flask-hoot-back-end)
-> The only difference in the full version is that a created_at column has been added to the hoots table and the comments table
 
 View the entire frontend here: [React Hoot](https://github.com/asands94/react-hoot-with-flask)
 > The only difference in the full version is that the date has been fixed to show the date a hoot and comment were created instead of showing Invalid Date

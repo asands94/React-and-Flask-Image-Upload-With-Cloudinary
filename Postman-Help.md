@@ -8,9 +8,11 @@ These instructions will show how to setup Postman
 - [Authorize All Routes](#authorize-all-routes)
 
 ## Create a Collection
-Create a new collection and select blank collection. Name your collection **Hoots Flask Api**.
+1. Create a new collection
 ![postman new collection](./images/postman-new-collection.png)
+2. Select blank collection. 
 ![postman blank collection](./images/postman-blank-collection.png)
+3. Name your collection **Hoots Flask Api**.
 ![postman name collection](./images/postman-name-collection.png)
 
 ## Sign Up a New User
