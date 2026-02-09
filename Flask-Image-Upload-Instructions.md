@@ -31,7 +31,7 @@ These instructions will show how to integrate the Cloudinary API into a Flask ba
 1. Open your Flask project and start the virtual environment: `pipenv shell`
 2. Install cloudinary: `pipenv install cloudinary`
     > ⚠️ Note: The cloudinary website says to use `pip3 install cloudinary` but this will cause issues with deploy
-3. Let's create 3 environment variables in our `.env` file so we don't push sensitive information to GitHub. When you click the blue` View API Keys` button, you will get access to the following information:
+3. Let's create 3 environment variables in our `.env` file so we don't push sensitive information to GitHub. When you click the blue **View API Keys** button, you will get access to the following information:
 ```
 CLOUD_NAME=your_cloud_name
 API_KEY=your_api_key

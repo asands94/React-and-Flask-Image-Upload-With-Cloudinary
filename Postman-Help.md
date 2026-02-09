@@ -18,6 +18,7 @@ These instructions will show how to setup Postman
 ## Sign Up a New User
 Create a POST request to sign up a new user
 > Note: Make sure your backend is running
+
 ![postman new request](./images/postman-new-request.png)
 
 Make sure you have the following settings:
