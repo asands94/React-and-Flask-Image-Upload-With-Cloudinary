@@ -10,16 +10,17 @@ These instructions will show how to setup Postman
 ## Create a Collection
 1. Create a new collection
 ![postman new collection](./images/postman-new-collection.png)
-2. Select blank collection. 
+2. Select blank collection
 ![postman blank collection](./images/postman-blank-collection.png)
-3. Name your collection **Hoots Flask Api**.
+3. Name your collection **Hoots Flask Api**
 ![postman name collection](./images/postman-name-collection.png)
 
 ## Sign Up a New User
 Create a POST request to sign up a new user
 > Note: Make sure your backend is running
+![postman new request](./images/postman-new-request.png)
 
-Make sure you have everything setup correctly:
+Make sure you have the following settings:
 1. Select `POST`
 2. The url should be: http://127.0.0.1:5000/auth/sign-up
 3. Select `Body`, `raw` and `JSON`
@@ -30,7 +31,7 @@ Make sure you have everything setup correctly:
     "password": "pass123"
 }
 ```
-![postman new request](./images/postman-new-request.png)
+
 ![postman signup](./images/postman-signup.png)
 
 ## Authorize All Routes
