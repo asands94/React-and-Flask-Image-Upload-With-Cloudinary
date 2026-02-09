@@ -1,6 +1,6 @@
 # Setting Up Your React Frontend for Image Uploads
 ## About 
-These instructions will show how to modify a React form so it can send uploaded images to a backend
+These instructions will show how to modify React code so it can send uploaded images to a backend
 
 ## Content
 - [Modifying the HootForm](#modifying-the-hootform)
@@ -8,6 +8,13 @@ These instructions will show how to modify a React form so it can send uploaded 
 - [Seeing Your Image in the Browser](#seeing-your-image-in-the-browser)
 
 ## Modifying the HootForm
+We'll do the following:
+1. Add a new useState for the image
+2. Change the type of data we send to the backend to FormData
+3. Add a new input field for the image
+4. Show the user the image they uploaded when they edit the form
+
+**This is the entire HootForm Component**
 ```jsx
 // HootForm.jsx
 
@@ -178,7 +185,7 @@ const updateHoot = async (hootId, hootFormData) => {
 ```
 
 ## Seeing Your Image in the Browser
-Let's add the image to the HootDetails component below the h1 tag
+Let's add the image to the HootDetails component **below the h1 tag.**
 
 ```jsx
 // HootDetails.jsx
