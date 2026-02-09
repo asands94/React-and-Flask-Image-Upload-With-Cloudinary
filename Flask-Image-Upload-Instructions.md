@@ -261,3 +261,8 @@ def update_hoot(hoot_id):
 ![cloudinary assets](./images/cloudinary-assets.png)
 
 **You are now done setting up image uploads in your Flask Backend! 🎉**
+
+View the entire backend here: [Flask Hoot](https://github.com/asands94/flask-hoot-back-end)
+> The only difference in the full version is that a created_at column has been added to the hoots table and the comments table
+
+Continue on with your frontend here: [React Instructions](./React-Image-Upload-Instructions.md)
