@@ -18,13 +18,12 @@ These instructions will show how to integrate the Cloudinary API into a Flask ba
 
 2. Answer a series of questions (they may be different than what is shown below):
 
-<div style="display: flex; overflow-x: scroll; gap: 12px; padding: 8px 0;">
-    <img src="./images/cloudinary-signup-question-1.png" width="500"/>
-    <img src="./images/cloudinary-signup-question-2.png" width="500" />
-    <img src="./images/cloudinary-signup-question-3.png" width="500" />
-    <img src="./images/cloudinary-signup-question-4.png" width="500" />
-    <img src="./images/cloudinary-signup-question-5.png" width="500" />
-</div>
+![cloudinary signup question 1](./images/cloudinary-signup-question-1.png)
+![cloudinary signup question 2](./images/cloudinary-signup-question-2.png)
+![cloudinary signup question 3](./images/cloudinary-signup-question-3.png)
+![cloudinary signup question 4](./images/cloudinary-signup-question-4.png)
+![cloudinary signup question 5](./images/cloudinary-signup-question-5.png)
+
 
 ## Setting Up Your Flask Code
 > This section assumes you already have a Flask application started and want to add image uploads to an existing SQL table.
@@ -237,7 +236,7 @@ def update_hoot(hoot_id):
 1. Make a collection in Postman for your Hoots, then create an account in your database. You'll want to make sure to use the generated token to authenticate your requests. If you need help with this step, view the steps in detail [here](./Postman-Help.md)
 
 2. Create a POST request for hoots in your collection and use this url: `http://127.0.0.1:5000/hoots`
-    > make sure to change 5000 to the actual port number you're using
+    > Note: Make sure to change 5000 to the actual port number you're using
 3. Select `Body` then `form-data`
 4. Add a new key for each column in your hoots table except for author.
 5. Make sure all the keys except for `image_url` say `Text` next to them. Select `File` for the `image_url`.
@@ -255,7 +254,6 @@ def update_hoot(hoot_id):
     "title": "Big News"
 }
 ```
-> Notice how the image_url has a cloudinary url
 8. Now lets check our **Cloudinary dashboard** and see if the image is there:
 - Select `Assets > Media Library > Assets` and you should see your photo
 ![cloudinary assets](./images/cloudinary-assets.png)
