@@ -15,6 +15,7 @@ We'll do the following:
 4. Show the user the image they uploaded when they edit the form
 
 **This is the entire HootForm Component**
+
 ```jsx
 // HootForm.jsx
 
@@ -143,7 +144,9 @@ const HootForm = ({ handleAddHoot, handleUpdateHoot }) => {
 }
 
 export default HootForm
+
 ```
+
 ## Modifying the hootService
 We also need to make a small change to our services so that the create and update functions accept any type of form data and not just JSON.
 ```js
